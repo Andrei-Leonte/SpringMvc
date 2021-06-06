@@ -24,7 +24,7 @@ public class DreamcarUser implements UserDetails {
 		
 		List<SimpleGrantedAuthority> authorities = new ArrayList<>();
 
-        authorities.add(new SimpleGrantedAuthority(user.getType()));
+        authorities.add(new SimpleGrantedAuthority(user.getType().toString()));
          
         return authorities;
 	}

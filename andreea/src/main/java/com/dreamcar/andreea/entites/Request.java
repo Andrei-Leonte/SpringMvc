@@ -5,8 +5,6 @@ import java.util.List;
 
 import javax.persistence.*;
 
-import com.dreamcar.andreea.entites.base.Deal;
-
 @Entity
 @Table(name = "requests")
 public class Request {
@@ -15,14 +13,14 @@ public class Request {
     @Column(name = "id")
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name="user_id")
-    private User user;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "provider_id", nullable = false)
+    private Provider provider;
 
-    @OneToOne(mappedBy = "components")
+    @OneToOne
     public Component component;
 
-    @OneToMany(mappedBy = "deals")
+    @OneToMany(mappedBy = "request", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Deal> deals;
 
     @Column(name = "amount")
@@ -55,17 +53,17 @@ public class Request {
     }
 
     /**
-     * @return User return the user
+     * @return Provider return the provider
      */
-    public User getUser() {
-        return user;
+    public Provider getProvider() {
+        return provider;
     }
 
     /**
-     * @param user the user to set
+     * @param provider the provider to set
      */
-    public void setUser(User user) {
-        this.user = user;
+    public void setProvider(Provider provider) {
+        this.provider = provider;
     }
 
     /**

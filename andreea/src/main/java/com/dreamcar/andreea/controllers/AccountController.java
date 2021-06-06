@@ -1,6 +1,9 @@
 package com.dreamcar.andreea.controllers;
 
+import com.dreamcar.andreea.entites.Provider;
 import com.dreamcar.andreea.entites.User;
+import com.dreamcar.andreea.entites.misc.UserType;
+import com.dreamcar.andreea.repositories.ProviderRepository;
 import com.dreamcar.andreea.repositories.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +11,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -17,13 +19,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class AccountController {
 
 	@Autowired
-	private UserRepository userRepo;
-    
-    @GetMapping("/login")
-    public String details(@PathVariable Long id) {
-      
-        return "asd";
-    }
+	private UserRepository userRepository;
+
+	@Autowired
+	private ProviderRepository providerRepository;
 
     @GetMapping("/register")
     public String showRegistrationForm(Model model) {
@@ -38,8 +37,17 @@ public class AccountController {
 		String encodedPassword = passwordEncoder.encode(user.getPassword());
 		user.setPassword(encodedPassword);
 		
-		userRepo.save(user);
+		userRepository.save(user);
 		
+        if (user.getType() == UserType.Dealer)
+        {
+            var provider = new Provider();
+            provider.setId(user.getId());
+            provider.setPhoneNumber("-1");
+
+            providerRepository.save(provider);
+        }
+
 		return "register_success";
 	}
 }

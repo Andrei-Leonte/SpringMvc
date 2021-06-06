@@ -1,10 +1,8 @@
 package com.dreamcar.andreea.entites;
 
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.*;
-
-import com.dreamcar.andreea.entites.base.Deal;
 
 @Entity
 @Table(name = "providers")
@@ -14,14 +12,14 @@ public class Provider {
     @Column(name = "id")
     private Long id;
     
-    @OneToOne(mappedBy = "users")
+    @OneToOne
     public User user;
 
-    @OneToMany(mappedBy = "requests")
-    private List<Request> requests;
+    @OneToMany(mappedBy = "provider", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<Request> requests;
 
-    @OneToMany(mappedBy = "deals")
-    private List<Deal> deals;
+    @OneToMany(mappedBy = "provider", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<Deal> deals;
 
     @Column(name = "phoneNumber", nullable = false, length = 20)
 	private String phoneNumber;
@@ -58,28 +56,28 @@ public class Provider {
     /**
      * @return List<Request> return the requests
      */
-    public List<Request> getRequests() {
+    public Set<Request> getRequests() {
         return requests;
     }
 
     /**
      * @param requests the requests to set
      */
-    public void setRequests(List<Request> requests) {
+    public void setRequests(Set<Request> requests) {
         this.requests = requests;
     }
 
     /**
      * @return List<Deal> return the deals
      */
-    public List<Deal> getDeals() {
+    public Set<Deal> getDeals() {
         return deals;
     }
 
     /**
      * @param deals the deals to set
      */
-    public void setDeals(List<Deal> deals) {
+    public void setDeals(Set<Deal> deals) {
         this.deals = deals;
     }
 

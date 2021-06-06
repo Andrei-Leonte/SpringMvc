@@ -10,12 +10,12 @@ public class Deal {
     @Column(name = "id")
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name="request_id")
-    private Request requests;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "request_id", nullable = false)
+    private Request request;
 
-    @ManyToOne
-    @JoinColumn(name="provider_id")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "provider_id", nullable = false)
     private Provider provider;
 
     /**
@@ -36,14 +36,14 @@ public class Deal {
      * @return Request return the requests
      */
     public Request getRequests() {
-        return requests;
+        return request;
     }
 
     /**
      * @param requests the requests to set
      */
-    public void setRequests(Request requests) {
-        this.requests = requests;
+    public void setRequests(Request request) {
+        this.request = request;
     }
 
     /**
