@@ -1,15 +1,32 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-    xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
 <body>
 
     <div th:insert="menu/main"></div>
-        <div class="container text-center">
-            <div>
-                <h1>Creare cerere</h1>
+    <div class="container text-center">
+        <div>
+            <h1>Creare cerere</h1>
+        </div>
+        <form th:action="@{/request/create}" th:object="${request}" method="post"
+            style="max-width: 600px; margin: 0 auto;">
+
+            <div class="form-group row">
+                <label class="col-4 col-form-label">Nume: </label>
+                <div class="col-8">
+                    <input type="text" th:field="*{component.name}" class="form-control" required minlength="3"
+                        maxlength="10" />
+                </div>
             </div>
-            <form th:action="@{/request/create}" th:object="${request}"
-                method="post" style="max-width: 600px; margin: 0 auto;">
+
+            <div class="form-group row">
+                <label class="col-4 col-form-label">Descriere: </label>
+                <div class="col-8">
+                    <input type="text" th:field="*{component.description}" class="form-control" required minlength="3"
+                        maxlength="40" />
+                </div>
+            </div>
+
             <div class="m-3">
                 <div class="form-group row">
                     <label class="col-4 col-form-label">Cantitate: </label>
@@ -17,20 +34,20 @@
                         <input type="number" th:field="*{amount}" class="form-control" required />
                     </div>
                 </div>
-                 
+
                 <div class="form-group row">
                     <label class="col-4 col-form-label">Pret Euro: </label>
                     <div class="col-8">
-                        <input type="number" th:field="*{price}" class="form-control"
-                                required minlength="6" maxlength="10"/>
+                        <input type="number" th:field="*{price}" class="form-control" required minlength="6"
+                            maxlength="10" />
                     </div>
                 </div>
-                 
+
                 <div class="form-group row">
                     <label class="col-4 col-form-label">Expirare: </label>
                     <div class="col-8">
-                        <input type="date" th:field="*{timeout}" class="form-control"
-                                required minlength="2" maxlength="50"/>
+                        <input type="date" th:field="*{timeout}" class="form-control" required minlength="2"
+                            maxlength="50" />
                     </div>
                 </div>
 
@@ -38,7 +55,8 @@
                     <button type="submit" class="btn btn-primary">Creare cerere</button>
                 </div>
             </div>
-            </form>
-        </div>
-    </body>
-    </html>
+        </form>
+    </div>
+</body>
+
+</html>
