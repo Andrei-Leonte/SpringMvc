@@ -62,7 +62,7 @@ public class RequestController {
 		var user = dreamcarUser.getUser();
 		model.setProvider(user.getProvider());
 		requestRepository.save(model);
-		
+
         return new ModelAndView("redirect:/request/all/active");
 	}
 }
