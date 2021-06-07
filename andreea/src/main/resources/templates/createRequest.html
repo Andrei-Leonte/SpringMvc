@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+    xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<body>
+
+    <div th:insert="menu/main"></div>
+        <div class="container text-center">
+            <div>
+                <h1>Creare cerere</h1>
+            </div>
+            <form th:action="@{/request/create}" th:object="${request}"
+                method="post" style="max-width: 600px; margin: 0 auto;">
+            <div class="m-3">
+                <div class="form-group row">
+                    <label class="col-4 col-form-label">Cantitate: </label>
+                    <div class="col-8">
+                        <input type="number" th:field="*{amount}" class="form-control" required />
+                    </div>
+                </div>
+                 
+                <div class="form-group row">
+                    <label class="col-4 col-form-label">Pret Euro: </label>
+                    <div class="col-8">
+                        <input type="number" th:field="*{price}" class="form-control"
+                                required minlength="6" maxlength="10"/>
+                    </div>
+                </div>
+                 
+                <div class="form-group row">
+                    <label class="col-4 col-form-label">Expirare: </label>
+                    <div class="col-8">
+                        <input type="date" th:field="*{timeout}" class="form-control"
+                                required minlength="2" maxlength="50"/>
+                    </div>
+                </div>
+
+                <div>
+                    <button type="submit" class="btn btn-primary">Creare cerere</button>
+                </div>
+            </div>
+            </form>
+        </div>
+    </body>
+    </html>

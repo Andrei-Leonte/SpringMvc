@@ -24,6 +24,14 @@ public class Provider {
     @Column(name = "phoneNumber", nullable = false, length = 20)
 	private String phoneNumber;
 
+    public User getUser() {
+        return this.user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     /**
      * @return Long return the id
      */

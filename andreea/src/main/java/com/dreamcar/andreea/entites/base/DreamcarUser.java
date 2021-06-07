@@ -62,4 +62,9 @@ public class DreamcarUser implements UserDetails {
 	public String getFullName() {
 		return user.getName();
 	}
+
+	public User getUser()
+	{
+		return user;
+	}
 }

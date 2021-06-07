@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/account")
@@ -32,7 +33,7 @@ public class AccountController {
     }
 
     @PostMapping("/register")
-	public String processRegister(User user) {
+	public ModelAndView processRegister(User user) {
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		String encodedPassword = passwordEncoder.encode(user.getPassword());
 		user.setPassword(encodedPassword);
@@ -44,10 +45,14 @@ public class AccountController {
             var provider = new Provider();
             provider.setId(user.getId());
             provider.setPhoneNumber("-1");
-
+            provider.setUser(user);
             providerRepository.save(provider);
+
+            user.setProvider(provider);
+            
+            userRepository.save(user);
         }
 
-		return "register_success";
+		return new ModelAndView("redirect:/login");
 	}
 }
