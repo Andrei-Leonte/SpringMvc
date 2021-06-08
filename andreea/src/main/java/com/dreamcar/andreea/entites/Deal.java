@@ -13,13 +13,28 @@ public class Deal {
     @Column(name = "price")
     private int price;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @Column(name = "accepted")
+    private Boolean accepted = false;
+
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "request_id", nullable = false)
     private Request request;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "provider_id", nullable = false)
     private Provider provider;
+
+    public Boolean isAccepted() {
+        return this.accepted;
+    }
+
+    public Boolean getAccepted() {
+        return this.accepted;
+    }
+
+    public void setAccepted(Boolean accepted) {
+        this.accepted = accepted;
+    }
 
     public Long getId() {
         return id;

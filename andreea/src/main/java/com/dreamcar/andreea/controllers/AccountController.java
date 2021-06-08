@@ -39,19 +39,17 @@ public class AccountController {
 		user.setPassword(encodedPassword);
 		
 		userRepository.save(user);
-		
-        if (user.getType() == UserType.Dealer)
-        {
-            var provider = new Provider();
-            provider.setId(user.getId());
-            provider.setPhoneNumber("-1");
-            provider.setUser(user);
-            providerRepository.save(provider);
 
-            user.setProvider(provider);
-            
-            userRepository.save(user);
-        }
+        var provider = new Provider();
+        provider.setId(user.getId());
+        provider.setPhoneNumber("-1");
+        provider.setUser(user);
+        providerRepository.save(provider);
+
+        user.setProvider(provider);
+        
+        userRepository.save(user);
+        
 
 		return new ModelAndView("redirect:/login");
 	}

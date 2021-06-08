@@ -26,8 +26,8 @@ public class DealController {
     @Autowired
     private DealRepository dealRepository;
 
-    @GetMapping("request/{requestId}")
-	public String getAllDealsByRequestId(@PathVariable Long requestId, Model model) {
+    @GetMapping("request/active/{requestId}")
+	public String getAllActiveDealsByRequestId(@PathVariable Long requestId, Model model) {
         var request = requestRepository.getById(requestId);
         var user = CurrentAccountDetails.GetUser();
 
@@ -45,7 +45,22 @@ public class DealController {
         model.addAttribute("deal", createDto);
         model.addAttribute("deals", dto);
 
-        return "deal";
+        return "activeDeal";
+    }
+
+    @GetMapping("request/inactive/{requestId}")
+	public String getAllDealsByRequestId(@PathVariable Long requestId, Model model) {
+        var request = requestRepository.getById(requestId);
+        var user = CurrentAccountDetails.GetUser();
+
+        var dto = new DealDto(
+            request,
+            request.getProvider().getUser().getEmail().equals(user.getEmail()),
+            user.getEmail());
+    
+        model.addAttribute("deals", dto);
+
+        return "inactiveDeal";
     }
 
     @PostMapping("create")
@@ -60,14 +75,18 @@ public class DealController {
 
         dealRepository.save(deal);
 
-        return new ModelAndView("redirect:/deal/request/" + dto.getRequestId());
+        return new ModelAndView("redirect:/deal/request/active/" + dto.getRequestId());
     }
 
     @PostMapping("accept")
 	public ModelAndView acceptDeal(AcceptDealDto dto) {
-        var user = CurrentAccountDetails.GetUser();
         var deal = dealRepository.getById(dto.getId());
-    
-        return new ModelAndView("redirect:/deal/request/" + deal.getRequest().getId());
+        deal.setAccepted(true);
+        deal.getRequest().setStatus(false);
+
+        dealRepository.save(deal);
+        requestRepository.save(deal.getRequest());
+
+        return new ModelAndView("redirect:/deal/request/inactive/" + deal.getRequest().getId());
     }
 }

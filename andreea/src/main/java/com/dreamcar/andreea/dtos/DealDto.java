@@ -10,7 +10,6 @@ public class DealDto {
         this.email = email;
     }
 
-
     public Request request;
 
     public boolean isOwner;

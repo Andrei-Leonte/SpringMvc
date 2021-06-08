@@ -1,14 +1,14 @@
 package com.dreamcar.andreea.dtos;
 
 public class AcceptDealDto {
-    private Long Id;
+    private Long id;
 
     public Long getId() {
-        return this.Id;
+        return this.id;
     }
 
-    public void setId(Long Id) {
-        this.Id = Id;
+    public void setId(Long id) {
+        this.id = id;
     }
     
 }

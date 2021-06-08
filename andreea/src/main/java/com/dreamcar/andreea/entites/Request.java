@@ -13,14 +13,14 @@ public class Request {
     @Column(name = "id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false, cascade = CascadeType.MERGE)
     @JoinColumn(name = "provider_id", nullable = false)
     private Provider provider;
 
     @OneToOne(cascade = CascadeType.ALL)
     public Component component;
 
-    @OneToMany(mappedBy = "request", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "request", fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private List<Deal> deals;
 
     @Column(name = "amount")

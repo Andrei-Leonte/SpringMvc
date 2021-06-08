@@ -33,7 +33,7 @@
                         <td th:text="${request.timeout}">Expirare</td>
                         <td th:text="${request.provider.user.email}">Email</td>
                         <td th:text="${request.isYou == true ? 'Da' : 'Nu'}">Email</td>  
-                        <td> <a th:href="@{/deal/request/} + ${request.id}">Vezi oferte</a> </td>  
+                        <td> <a th:href="@{/deal/request/active/} + ${request.id}">Vezi oferte</a> </td>  
                     </tr>
                     
                 </tbody>

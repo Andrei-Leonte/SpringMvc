@@ -15,10 +15,10 @@ public class Provider {
     @OneToOne
     public User user;
 
-    @OneToMany(mappedBy = "provider", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "provider", fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private Set<Request> requests;
 
-    @OneToMany(mappedBy = "provider", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "provider", fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     private Set<Deal> deals;
 
     @Column(name = "phoneNumber", nullable = false, length = 20)
