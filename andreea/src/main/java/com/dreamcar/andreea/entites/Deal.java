@@ -45,4 +45,20 @@ public class Deal {
         this.provider = provider;
     }
 
+    public int getPrice() {
+        return this.price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public Request getRequest() {
+        return this.request;
+    }
+
+    public void setRequest(Request request) {
+        this.request = request;
+    }
+
 }

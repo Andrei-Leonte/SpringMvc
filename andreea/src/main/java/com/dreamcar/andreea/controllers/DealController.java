@@ -1,12 +1,9 @@
 package com.dreamcar.andreea.controllers;
 
-import java.util.ArrayList;
-
-import com.dreamcar.andreea.dtos.DealDetailsDto;
+import com.dreamcar.andreea.dtos.AcceptDealDto;
+import com.dreamcar.andreea.dtos.CreateDealDto;
 import com.dreamcar.andreea.dtos.DealDto;
-import com.dreamcar.andreea.dtos.RequestDto;
-import com.dreamcar.andreea.entites.Component;
-import com.dreamcar.andreea.entites.Request;
+import com.dreamcar.andreea.entites.Deal;
 import com.dreamcar.andreea.repositories.DealRepository;
 import com.dreamcar.andreea.repositories.RequestRepository;
 import com.dreamcar.andreea.utils.CurrentAccountDetails;
@@ -26,17 +23,51 @@ public class DealController {
     @Autowired
     private RequestRepository requestRepository;
 
+    @Autowired
+    private DealRepository dealRepository;
+
     @GetMapping("request/{requestId}")
-	public String getAllDealsByRequestId(@PathVariable Long requestId) {
+	public String getAllDealsByRequestId(@PathVariable Long requestId, Model model) {
         var request = requestRepository.getById(requestId);
         var user = CurrentAccountDetails.GetUser();
 
         var dto = new DealDto(
+            request,
             request.getProvider().getUser().getEmail().equals(user.getEmail()),
-            request);
+            user.getEmail());
 
+        var createDto = new CreateDealDto();
+        createDto.setRequestId(requestId);
+
+        var acceptDealDto = new AcceptDealDto();
+
+        model.addAttribute("acceptDeal", acceptDealDto);
+        model.addAttribute("deal", createDto);
         model.addAttribute("deals", dto);
 
-        return "";
+        return "deal";
+    }
+
+    @PostMapping("create")
+	public ModelAndView create(CreateDealDto dto) {
+        var request = requestRepository.getById(dto.getRequestId());
+        var user = CurrentAccountDetails.GetUser();
+
+        var deal = new Deal();
+
+        deal.setRequests(request);
+        deal.setProvider(user.getProvider());
+
+        dealRepository.save(deal);
+
+        return new ModelAndView("redirect:/deal/request/" + dto.getRequestId());
+    }
+
+    @PostMapping("accept")
+	public ModelAndView acceptDeal(AcceptDealDto dto) {
+        var user = CurrentAccountDetails.GetUser();
+        var deal = dealRepository.getById(dto.getId());
+    
+        return new ModelAndView("redirect:/deal/request/" + deal.getRequest().getId());
     }
 }

@@ -1,18 +1,21 @@
 package com.dreamcar.andreea.dtos;
 
-import java.util.List;
-
 import com.dreamcar.andreea.entites.Request;
 
 public class DealDto {
-    public DealDto(boolean isOwner, Request request) {
-        this.isOwner = isOwner;
+
+    public DealDto(Request request, boolean isOwner, String email) {
         this.request = request;
+        this.isOwner = isOwner;
+        this.email = email;
     }
+
+
+    public Request request;
 
     public boolean isOwner;
 
-    public Request request;
+    public String email;
 
     public boolean isIsOwner() {
         return this.isOwner;
@@ -32,6 +35,14 @@ public class DealDto {
 
     public void setRequest(Request request) {
         this.request = request;
+    }
+
+    public String getEmail() {
+        return this.email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
 }

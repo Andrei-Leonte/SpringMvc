@@ -15,7 +15,7 @@
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li th:classappend="${module == 'users/all' ? 'active' : ''}" th:if="${#authorization.expression('isAuthenticated()')}">
+            <li th:classappend="${#strings.contains(#httpServletRequest.requestURI, 'users/all') ? 'active' : ''}" th:if="${#authorization.expression('isAuthenticated()')}">
               <a href="#" th:href="@{/users/all}">Lista useri</a>
             </li>
             <li class="dropdown" th:classappend="${#strings.contains(#httpServletRequest.requestURI,'request') ? 'active' : ''}" th:if="${#authorization.expression('isAuthenticated()')}">
@@ -27,16 +27,6 @@
                   <li><a href="#" th:href="@{/request/create}">Creare</a></li>
                 </ul>
               </li>
-            <li th:classappend="${module == 'tasks' ? 'active' : ''}" th:if="${#authorization.expression('isAuthenticated()')}">
-                <a href="#" th:href="@{/task}">Cereri inactive</a>
-            </li>
-            <li th:classappend="${module == 'tasks' ? 'active' : ''}" th:if="${#authorization.expression('isAuthenticated()')}">
-                <a href="#" th:href="@{/task}">Oferte active</a>
-            </li>
-            
-            <li th:classappend="${module == 'tasks' ? 'active' : ''}" th:if="${#authorization.expression('isAuthenticated()')}">
-                <a href="#" th:href="@{/task}">Oferte inactive</a>
-            </li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <li th:if="${#authorization.expression('!isAuthenticated()')}">
