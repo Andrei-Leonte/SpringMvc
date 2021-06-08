@@ -1,18 +1,15 @@
 package com.dreamcar.andreea.controllers;
 
 import com.dreamcar.andreea.repositories.RequestRepository;
+import com.dreamcar.andreea.utils.CurrentAccountDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
-import java.util.Set;
 
+import com.dreamcar.andreea.dtos.RequestDto;
+import com.dreamcar.andreea.entites.Component;
 import com.dreamcar.andreea.entites.Request;
-import com.dreamcar.andreea.entites.User;
-import com.dreamcar.andreea.entites.base.DreamcarUser;
-import com.dreamcar.andreea.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,15 +27,32 @@ public class RequestController {
     @GetMapping("/all/active")
 	public String listActive(Model model) {
 		Collection<Request> requests = requestRepository.getAllActive();
-        
-		model.addAttribute("requests", requests);
+		
+		var dtos = new ArrayList<RequestDto>();
+		var user = CurrentAccountDetails.GetUser();
+		
+		requests.forEach(request -> {
+			dtos.add(new RequestDto(
+				request.getId(),
+				request.getProvider(),
+				request.getComponent(),
+				request.getAmount(),
+				request.getPrice(),
+				request.getTimeout(),
+				request.getDate(),
+				request.getStatus(),
+				request.getProvider().getUser().getEmail().equals(user.getEmail())
+			));
+		});
+
+		model.addAttribute("requests", dtos);
 		
 		return "activeRequest";
 	}
 
     @GetMapping("/all/inactive")
 	public String listInactive(Model model) {
-		Collection<Request> requests = requestRepository.getAllActive();
+		Collection<Request> requests = requestRepository.getAllInactive();
         
 		model.addAttribute("requests", requests);
 		
@@ -47,7 +61,10 @@ public class RequestController {
 
     @GetMapping("/create")
 	public String showCreate(Model model) {
-        model.addAttribute("request", new Request());
+		var request = new Request();
+		request.setComponent(new Component());
+
+        model.addAttribute("request", request);
 
 		return "createRequest";
 	}
@@ -56,13 +73,12 @@ public class RequestController {
 	public ModelAndView proccessCreate(Request model) {
         model.setStatus(true);
         
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        var principal = auth.getPrincipal();
-		var dreamcarUser =(DreamcarUser)principal;
-		var user = dreamcarUser.getUser();
+		var user = CurrentAccountDetails.GetUser();
+
 		model.setProvider(user.getProvider());
 		requestRepository.save(model);
-		
+
         return new ModelAndView("redirect:/request/all/active");
 	}
+
 }

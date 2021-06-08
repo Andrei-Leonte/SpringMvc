@@ -14,17 +14,28 @@
             <table class="table table-striped table-bordered">
                 <thead class="thead-dark">
                     <tr>
+                        <th>Nume</th>
+                        <th>Descriere</th>
                         <th>Cantitate</th>
                         <th>Pret</th>
                         <th>Expirare</th>
+                        <th>Provider</th>
+                        <th>Detinator</th>
+                        <th>Vezi oferte</tr>
                     </tr>
                 </thead>
                 <tbody>
                     <tr th:each="request: ${requests}">
+                        <td th:text="${request.component.name}">Nume</td>
+                        <td th:text="${request.component.description}">Descriere</td>
                         <td th:text="${request.amount}">Cantitate</td>
                         <td th:text="${request.price}">Pret</td>
                         <td th:text="${request.timeout}">Expirare</td>
+                        <td th:text="${request.provider.user.email}">Email</td>
+                        <td th:text="${request.isYou == true ? 'Da' : 'Nu'}">Email</td>  
+                        <td> <a th:href="@{/deal/request/active/} + ${request.id}">Vezi oferte</a> </td>  
                     </tr>
+                    
                 </tbody>
             </table>
         </div>

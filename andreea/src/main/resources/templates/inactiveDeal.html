@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+    xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<body>
+    <div th:insert="menu/main"></div>
+    <div class="container text-center">
+        <div>
+        </div>
+        <div>
+            <h1>Istoric oferte</h1>
+        </div>
+
+        <div>
+            <table class="table table-striped table-bordered">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Nume</th>
+                        <th>Descriere</th>
+                        <th>Cantitate</th>
+                        <th>Pret</th>
+                        <th>Oferta</th>
+                        <th>Email</th>
+                        <th>Apartine oferta</th>
+                        <th>Castigatoare</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="deal: ${deals.request.deals}">
+                        <td th:text="${deals.request.component.name}">Nume</td>
+                        <td th:text="${deals.request.component.description}">Descriere</td>
+                        <td th:text="${deals.request.amount}">Cantitate</td>
+                        <td th:text="${deals.request.price}">Pret</td>
+                        <td th:text="${deal.price}">Pret</td>
+                        <td th:text="${deal.provider.user.email}">Email</td>
+                        
+                       
+                            <td th:text="${#strings.equals(deal.provider.user.email, deals.email) ? 'Da' : 'Nu'}">Accepted</td>
+                        
+
+                       
+                            <td th:text="${deal.accepted == true ? 'Da' : 'Nu'}">Accepted</td>
+                        
+                    </tr>
+                    
+                </tbody>
+            </table>
+        </div>
+    </div>
+    </body>
+    </html>

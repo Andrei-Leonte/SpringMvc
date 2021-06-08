@@ -10,7 +10,7 @@ public class Component {
     @Column(name = "id")
     private Long id;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "request_id", referencedColumnName = "id")
     private Request requests;
 

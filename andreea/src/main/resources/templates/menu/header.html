@@ -11,11 +11,11 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="">Andreea Deals</a>
+          <a class="navbar-brand" href="/">Actiuni Andreea</a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li th:classappend="${module == 'users/all' ? 'active' : ''}" th:if="${#authorization.expression('isAuthenticated()')}">
+            <li th:classappend="${#strings.contains(#httpServletRequest.requestURI, 'users/all') ? 'active' : ''}" th:if="${#authorization.expression('isAuthenticated()')}">
               <a href="#" th:href="@{/users/all}">Lista useri</a>
             </li>
             <li class="dropdown" th:classappend="${#strings.contains(#httpServletRequest.requestURI,'request') ? 'active' : ''}" th:if="${#authorization.expression('isAuthenticated()')}">
@@ -23,20 +23,12 @@
                 <span class="caret"></span></a>
                 <ul class="dropdown-menu">
                   <li><a href="#" th:href="@{/request/all/active}">Active</a></li>
-                  <li><a href="#" th:href="@{/request/all/inactive}">Inactive</a></li>
-                  <li><a href="#" th:href="@{/request/create}">Creare</a></li>
+                  <li><a href="#" th:href="@{/request/all/inactive}">Inactive</a></li>   
+
+                  <li sec:authorize="hasAuthority('Dealer')"><a href="#" th:href="@{/request/create}">Creare</a></li>
+            
                 </ul>
               </li>
-            <li th:classappend="${module == 'tasks' ? 'active' : ''}" th:if="${#authorization.expression('isAuthenticated()')}">
-                <a href="#" th:href="@{/task}">Cereri inactive</a>
-            </li>
-            <li th:classappend="${module == 'tasks' ? 'active' : ''}" th:if="${#authorization.expression('isAuthenticated()')}">
-                <a href="#" th:href="@{/task}">Oferte active</a>
-            </li>
-            
-            <li th:classappend="${module == 'tasks' ? 'active' : ''}" th:if="${#authorization.expression('isAuthenticated()')}">
-                <a href="#" th:href="@{/task}">Oferte inactive</a>
-            </li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <li th:if="${#authorization.expression('!isAuthenticated()')}">
@@ -46,7 +38,8 @@
             </li>
             <li th:if="${#authorization.expression('isAuthenticated()')}">
               <a href="/logout" th:href="@{#}" onclick="$('#form').submit();">
-                <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>&nbsp;Logout
+                <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>&nbsp;<strong>Logout</strong> <span sec:authentication="name">Username</span>
+
               </a>
              <form style="visibility: hidden" id="form" method="post" action="#" th:action="@{/logout}"></form>
             </li>
