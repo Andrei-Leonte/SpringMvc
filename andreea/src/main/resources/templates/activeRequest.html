@@ -30,7 +30,7 @@
                         <td th:text="${request.component.description}">Descriere</td>
                         <td th:text="${request.amount}">Cantitate</td>
                         <td th:text="${request.price}">Pret</td>
-                        <td th:text="${request.timeout}">Expirare</td>
+                        <td> <p th:text="${request.timeout}" ></p> <p th:text="${request.time}"> </p></td>
                         <td th:text="${request.provider.user.email}">Email</td>
                         <td th:text="${request.isYou == true ? 'Da' : 'Nu'}">Email</td>  
                         <td> <a th:href="@{/deal/request/active/} + ${request.id}">Vezi oferte</a> </td>  

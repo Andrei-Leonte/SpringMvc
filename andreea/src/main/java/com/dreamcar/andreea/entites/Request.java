@@ -1,6 +1,7 @@
 package com.dreamcar.andreea.entites;
 
 import java.sql.Date;
+import java.sql.Time;
 import java.util.List;
 
 import javax.persistence.*;
@@ -8,6 +9,25 @@ import javax.persistence.*;
 @Entity
 @Table(name = "requests")
 public class Request {
+
+    public Request() { }
+
+    public Request(
+        Component component,
+     int amount,
+     int price,
+     Date date2,
+     String timeoutTime, 
+     Boolean status) {
+        this.component = component;
+        this.amount = amount;
+        this.price = price;
+        this.timeout = new Date(date2.getTime());
+        this.status = status;   
+
+        this.time = Time.valueOf(timeoutTime + ":00");
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
@@ -35,8 +55,30 @@ public class Request {
     @Column(name = "date")
     private Date date;
 
+    @Column(name = "time")
+    private Time time;
+
     @Column(name = "status")
     private Boolean status;
+
+    @Column(name = "modifiedBy")
+    private String modifiedBy;
+
+    public String getModifiedBy() {
+        return this.modifiedBy;
+    }
+
+    public void setModifiedBy(String modifiedBy) {
+        this.modifiedBy = modifiedBy;
+    }
+
+    public Time getTime() {
+        return this.time;
+    }
+
+    public void setTime(Time time) {
+        this.time = time;
+    }
 
     public Long getId() {
         return id;

@@ -10,6 +10,7 @@ import com.dreamcar.andreea.entites.Deal;
 import com.dreamcar.andreea.repositories.DealRepository;
 import com.dreamcar.andreea.repositories.RequestRepository;
 import com.dreamcar.andreea.utils.CurrentAccountDetails;
+import com.dreamcar.andreea.utils.EmailUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -92,32 +93,14 @@ public class DealController {
 
         try
         {
-            sendmail(deal.getProvider().getUser().getEmail(), deal.getRequest().getComponent().getName());
+            EmailUtil.sendmail(
+                deal.getProvider().getUser().getEmail(),
+                
+                "Felicitari, tia fost acceptata ofera de catre utilizator",
+                "Felicitari, tia fost acceptata ofera de catre utilizator: " + deal.getRequest().getComponent().getName());
         }
         catch(Exception e){ }
 
         return new ModelAndView("redirect:/deal/request/inactive/" + deal.getRequest().getId());
     }
-
-    private void sendmail(String email, String name) {
-        var from = new Email("Testjava76@gmail.com");
-        String subject = "Felicitari ai castigat: ";
-        Email to = new Email("leonteiandrei@gmail.com");
-        Content content = new Content("text/plain", "Felicitari ai castigat: " + name);
-        Mail mail = new Mail(from, subject, to, content);
-    
-        SendGrid sg = new SendGrid("--Introdu aici--");
-        Request request = new Request();
-        try {
-          request.setMethod(Method.POST);
-          request.setEndpoint("mail/send");
-          request.setBody(mail.build());
-          Response response = sg.api(request);
-          System.out.println(response.getStatusCode());
-          System.out.println(response.getBody());
-          System.out.println(response.getHeaders());
-        } catch (IOException ex) {
-            return;
-        }
-     }
 }

@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
-
 <body>
-
     <div th:insert="menu/main"></div>
     <div class="container text-center">
         <div>
@@ -38,19 +36,27 @@
                 <div class="form-group row">
                     <label class="col-4 col-form-label">Pret Euro: </label>
                     <div class="col-8">
-                        <input type="number" th:field="*{price}" class="form-control" required minlength="6"
+                        <input type="number" th:field="*{price}" class="form-control" required minlength="1"
                             maxlength="10" />
                     </div>
                 </div>
 
                 <div class="form-group row">
-                    <label class="col-4 col-form-label">Expirare: </label>
+                    <label class="col-4 col-form-label">Data Expirare: </label>
                     <div class="col-8">
                         <input type="date" th:field="*{timeout}" class="form-control" required minlength="2"
-                            maxlength="50" />
+                            maxlength="50"/>
                     </div>
                 </div>
 
+                <div class="form-group row">
+                    <label class="col-4 col-form-label">Timp Expirare: </label>
+                    <div class="col-8">
+                        <input type="time" th:field="*{timeoutTime}" class="form-control" required minlength="2"
+                            maxlength="50"/>
+                    </div>
+                </div>
+ 
                 <div>
                     <button type="submit" class="btn btn-primary">Creare cerere</button>
                 </div>
@@ -58,5 +64,6 @@
         </form>
     </div>
 </body>
+
 
 </html>

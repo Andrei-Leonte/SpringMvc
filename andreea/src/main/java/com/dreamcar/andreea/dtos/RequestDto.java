@@ -1,6 +1,7 @@
 package com.dreamcar.andreea.dtos;
 
 import java.sql.Date;
+import java.sql.Time;
 
 import com.dreamcar.andreea.entites.Component;
 import com.dreamcar.andreea.entites.Provider;
@@ -62,7 +63,8 @@ public class RequestDto {
 
     public RequestDto(){}
 
-    public RequestDto(Long id, Provider provider, Component component, int amount, int price, Date timeout, Date date, Boolean status, boolean isYou) {
+    public RequestDto(
+        Long id, Provider provider, Component component, int amount, int price, Date timeout, Date date, Boolean status, boolean isYou, Time time) {
         this.id = id;
         this.provider = provider;
         this.component = component;
@@ -72,6 +74,7 @@ public class RequestDto {
         this.date = date;
         this.status = status;
         this.isYou = isYou;
+        this.time = time;
     }
 
     public void setDate(Date date) {
@@ -117,4 +120,14 @@ public class RequestDto {
     private Boolean status;
 
     private Boolean isYou;
+
+    private Time time;
+
+    public Time getTime() {
+        return this.time;
+    }
+
+    public void setTime(Time time) {
+        this.time = time;
+    }
 }
